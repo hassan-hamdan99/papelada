@@ -1,0 +1,37 @@
+[project]
+name = "boleto-br"
+version = "0.1.0"
+description = "Brazilian payment and fiscal identifiers: boletos (with the 2025 due-date reset), utility slips, CPF/CNPJ (alphanumeric included), NF-e keys and Pix codes. Zero dependencies."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Hassan Hamdan" }]
+requires-python = ">=3.10"
+dependencies = []
+keywords = ["boleto", "pix", "cnpj", "cpf", "nfe", "febraban", "brasil", "linha digitavel"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: Portuguese (Brazilian)",
+    "Topic :: Office/Business :: Financial",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Repository = "https://github.com/hassan-hamdan99/boleto-br"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "pytest-cov>=4.1"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+boleto_br = ["py.typed"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
