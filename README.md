@@ -50,6 +50,53 @@ payload = pix.build("pix@example.com", "Loja Exemplo", "FLORIANOPOLIS", amount=4
 pix.parse(payload).amount      # Decimal('49.90'); the CRC16 is checked on parse
 ```
 
+## Read anything: `inspect()`
+
+One call, any code (47-digit line, 48-digit utility line or 44-digit barcode, formatted or not).
+It never raises: it tells you what the code is, what's wrong with it and what it says.
+
+```python
+from boleto_br import inspect
+
+info = inspect("34191.09008 61207.727308 71140.050007 4 16460000125000")
+info.kind, info.valid, info.bank_name           # ('boleto', True, 'Itaú Unibanco')
+info.amount, info.due_date, info.due_status     # (Decimal('1250.00'), date(2026, 11, 30), 'upcoming')
+info.to_dict()                                  # JSON-ready, for APIs, n8n and LLM tools
+
+bad = inspect("34191.09009 61207.727308 71140.050007 4 16460000125000")   # one wrong digit
+bad.valid, bad.errors[0].message   # (False, 'wrong check digit in field 1')
+bad.suggestions                    # ['34191090086120772730871140050007416460000125000']
+```
+
+**Suggestions are for OCR and LLM extraction.** When a code is invalid, `inspect()` lists the valid
+codes one edit away (a wrong, missing, extra or swapped digit). Over 1,000 simulated typos the right
+code was always among them, but how many there are depends on where the typo is:
+
+| Typo in | Exactly one candidate | Right code in the list |
+|---|---|---|
+| Fields 1-3 (own check digit) | 32% | 100%, usually 1 to 4 candidates |
+| Due date / amount (field 5) | 2% | 100%, but 10+ candidates |
+
+So it never auto-corrects. With one candidate you can confirm it with the user; with up to five, let
+them pick; with more, it returns none (never a truncated list that might miss the right one) and
+warns `ambiguous_fix`, which means: ask for the code again.
+
+**Find slips in free text** (an e-mail, PDF text, a WhatsApp message), including lines broken across
+two lines. The same slip given as line and barcode comes back once:
+
+```python
+from boleto_br import find_slips
+for slip in find_slips(email_body):
+    print(slip.kind, slip.amount, slip.due_date)
+```
+
+**Command line**, JSON out:
+
+```bash
+boleto-br 34191.09008 61207.727308 71140.050007 4 16460000125000
+pdftotext fatura.pdf - | boleto-br       # finds every slip in the PDF
+```
+
 ## What's covered
 
 | Module | Validates | Extracts / builds |
@@ -69,7 +116,7 @@ pix.parse(payload).amount      # Decimal('49.90'); the CRC16 is checked on parse
 | CRC16-CCITT-FALSE check value of `"123456789"` | `29B1` ✔ |
 | Factor 1000 → 2000-07-03, 9999 → 2025-02-21, reset → 2025-02-22 | ✔ |
 
-Plus **46 tests**: thousands of randomized round-trips (line → barcode → line), single-digit typo detection
+Plus **59 tests**: thousands of randomized round-trips (line → barcode → line), single-digit typo detection
 on every position, and validation of generated CPFs and CNPJs.
 
 ### A note on what check digits can't catch

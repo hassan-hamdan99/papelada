@@ -1,5 +1,6 @@
 """Brazilian payment and fiscal identifiers: boletos, utility slips, CPF/CNPJ, NF-e keys and Pix."""
 from . import arrecadacao, boleto, documentos, nfe, pix
+from ._inspect import Problem, SlipInfo, find_slips, inspect
 from .boleto import Boleto, InvalidBoleto
 from .documentos import (
     format_cnpj, format_cpf, is_alphanumeric_cnpj, is_valid_cnpj, is_valid_cpf,
@@ -16,7 +17,7 @@ def parse_slip(code: str):
 
 __all__ = [
     "arrecadacao", "boleto", "documentos", "nfe", "pix",
-    "Boleto", "InvalidBoleto", "parse_slip",
+    "Boleto", "InvalidBoleto", "parse_slip", "inspect", "find_slips", "SlipInfo", "Problem",
     "is_valid_cpf", "is_valid_cnpj", "is_alphanumeric_cnpj", "format_cpf", "format_cnpj",
 ]
-__version__ = "0.1.0"
+__version__ = "0.2.0"

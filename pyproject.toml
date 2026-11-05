@@ -1,6 +1,6 @@
 [project]
 name = "boleto-br"
-version = "0.1.0"
+version = "0.2.0"
 description = "Brazilian payment and fiscal identifiers: boletos (with the 2025 due-date reset), utility slips, CPF/CNPJ (alphanumeric included), NF-e keys and Pix codes. Zero dependencies."
 readme = "README.md"
 license = { text = "MIT" }
@@ -18,6 +18,9 @@ classifiers = [
 
 [project.urls]
 Repository = "https://github.com/hassan-hamdan99/boleto-br"
+
+[project.scripts]
+boleto-br = "boleto_br.__main__:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=7.4", "pytest-cov>=4.1"]
