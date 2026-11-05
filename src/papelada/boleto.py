@@ -107,7 +107,7 @@ def parse(code: str, reference: date | None = None) -> Boleto:
     else:
         raise InvalidBoleto(f"expected 44 or 47 digits, got {len(d)}")
     if barcode[0] == "8":
-        raise InvalidBoleto("this is a utility/tax slip (arrecadação); use boleto_br.arrecadacao")
+        raise InvalidBoleto("this is a utility/tax slip (arrecadação); use papelada.arrecadacao")
     if general_check_digit(barcode[:4] + barcode[5:]) != int(barcode[4]):
         raise InvalidBoleto("wrong general check digit")
 

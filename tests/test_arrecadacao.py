@@ -3,8 +3,8 @@ from decimal import Decimal
 
 import pytest
 
-from boleto_br import arrecadacao, parse_slip
-from boleto_br.arrecadacao import InvalidArrecadacao
+from papelada import arrecadacao, parse_slip
+from papelada.arrecadacao import InvalidArrecadacao
 
 rng = random.Random(7)
 

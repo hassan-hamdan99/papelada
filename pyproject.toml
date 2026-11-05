@@ -1,13 +1,13 @@
 [project]
-name = "boleto-br"
-version = "0.2.0"
-description = "Brazilian payment and fiscal identifiers: boletos (with the 2025 due-date reset), utility slips, CPF/CNPJ (alphanumeric included), NF-e keys and Pix codes. Zero dependencies."
+name = "papelada"
+version = "0.3.0"
+description = "Brazilian financial and fiscal paperwork for automation: boletos and utility slips (inspect, typo suggestions, find in text), NF-e XML, CPF/CNPJ (alphanumeric included), NF-e keys and Pix codes. Zero dependencies."
 readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "Hassan Hamdan" }]
 requires-python = ">=3.10"
 dependencies = []
-keywords = ["boleto", "pix", "cnpj", "cpf", "nfe", "febraban", "brasil", "linha digitavel"]
+keywords = ["boleto", "pix", "cnpj", "cpf", "nfe", "nfce", "xml", "febraban", "brasil", "linha digitavel", "nota fiscal", "cnab"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -17,10 +17,10 @@ classifiers = [
 ]
 
 [project.urls]
-Repository = "https://github.com/hassan-hamdan99/boleto-br"
+Repository = "https://github.com/hassan-hamdan99/papelada"
 
 [project.scripts]
-boleto-br = "boleto_br.__main__:main"
+papelada = "papelada.__main__:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=7.4", "pytest-cov>=4.1"]
@@ -33,7 +33,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.setuptools.package-data]
-boleto_br = ["py.typed"]
+papelada = ["py.typed"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

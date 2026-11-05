@@ -2,8 +2,8 @@ import json
 from datetime import date
 from decimal import Decimal
 
-from boleto_br import arrecadacao, boleto, find_slips, inspect
-from boleto_br.__main__ import main
+from papelada import arrecadacao, boleto, find_slips, inspect
+from papelada.__main__ import main
 
 TODAY = date(2026, 11, 20)
 SLIP = boleto.build("341", "1090061207727307114005000", Decimal("1250.00"), date(2026, 11, 30))

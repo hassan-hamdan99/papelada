@@ -2,7 +2,7 @@ import random
 
 import pytest
 
-from boleto_br import documentos as d
+from papelada import documentos as d
 
 rng = random.Random(3)
 

@@ -2,10 +2,12 @@
 
 Layout: cUF(2) AAMM(4) issuer CNPJ/CPF(14) model(2) series(3) number(9) emission type(1)
 random code(8) check digit(1). Check digit: módulo 11, weights 2..9 from the right.
-"""
-from dataclasses import dataclass
 
-from ._digits import mod11_weighted_sum, only_digits
+With the alphanumeric CNPJ (July 2026), the issuer part of the key may contain letters. As in the
+CNPJ itself, every character counts as its ASCII code minus 48, so numeric keys are unchanged.
+"""
+import re
+from dataclasses import dataclass
 from .documentos import is_valid_cnpj, is_valid_cpf
 
 UF_CODES = {
@@ -21,8 +23,18 @@ class InvalidAccessKey(ValueError):
     pass
 
 
+_KEY = re.compile(r"\d{6}[0-9A-Z]{12}\d{26}")
+
+
+def clean_key(value: str) -> str:
+    """Keep digits and letters, uppercase; drop an "NFe"/"CTe" prefix such as the one in `Id`."""
+    k = re.sub(r"[^0-9A-Za-z]", "", value or "").upper()
+    return re.sub(r"^(NFE|CTE|MDFE)", "", k)
+
+
 def check_digit(first43: str) -> int:
-    rest = mod11_weighted_sum(first43) % 11
+    values = [ord(c) - 48 for c in first43.upper()]
+    rest = sum(v * (2 + i % 8) for i, v in enumerate(reversed(values))) % 11
     return 0 if rest in (0, 1) else 11 - rest
 
 
@@ -47,9 +59,11 @@ class AccessKey:
 
 
 def parse_key(value: str) -> AccessKey:
-    k = only_digits(value)
+    k = clean_key(value)
     if len(k) != 44:
-        raise InvalidAccessKey("access key must have 44 digits")
+        raise InvalidAccessKey("access key must have 44 characters")
+    if not _KEY.fullmatch(k):
+        raise InvalidAccessKey("letters are only allowed in the issuer CNPJ (positions 7-18)")
     if check_digit(k[:43]) != int(k[43]):
         raise InvalidAccessKey("wrong check digit")
     if k[:2] not in UF_CODES:

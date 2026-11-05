@@ -4,9 +4,9 @@ from decimal import Decimal
 
 import pytest
 
-from boleto_br import boleto, parse_slip
-from boleto_br._digits import mod10
-from boleto_br.boleto import InvalidBoleto
+from papelada import boleto, parse_slip
+from papelada._digits import mod10
+from papelada.boleto import InvalidBoleto
 
 rng = random.Random(42)
 

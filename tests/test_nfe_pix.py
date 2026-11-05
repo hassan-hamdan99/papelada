@@ -2,8 +2,8 @@ from decimal import Decimal
 
 import pytest
 
-from boleto_br import nfe, pix
-from boleto_br.documentos import cnpj_check_digits
+from papelada import nfe, pix
+from papelada.documentos import cnpj_check_digits
 
 # --- NF-e access key (synthetic) ------------------------------------------------
 
