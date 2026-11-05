@@ -4,8 +4,12 @@
 NF-e / NFC-e XML, CPF and CNPJ (including the **alphanumeric CNPJ** of 2026), NF-e access keys and
 **Pix "copia e cola"** codes. Pure Python, zero dependencies, fully typed.
 
+[![PyPI](https://img.shields.io/pypi/v/papelada?color=34d399)](https://pypi.org/project/papelada/)
+[![Python](https://img.shields.io/pypi/pyversions/papelada)](https://pypi.org/project/papelada/)
+[![tests](https://github.com/hassan-hamdan99/papelada/actions/workflows/tests.yml/badge.svg)](https://github.com/hassan-hamdan99/papelada/actions/workflows/tests.yml)
+
 ```bash
-pip install git+https://github.com/hassan-hamdan99/papelada
+pip install papelada
 ```
 
 > Written from the public specifications (FEBRABAN, Receita Federal, the NF-e taxpayer manual and
@@ -171,10 +175,11 @@ synthetic.
 
 ## Roadmap
 
-- **CNAB 240 / 400**: read return files (`.ret`) and write remittance files (`.rem`) from the
-  FEBRABAN layouts.
-- **Slip ↔ NF-e reconciliation**: match boletos to the installments of an invoice by amount and due date.
-- **OFX** bank statements.
+- [ ] **CNAB 240 / 400**: read return files (`.ret`) and write remittance files (`.rem`), from the
+  public FEBRABAN layouts, with the same "report, don't guess" validation.
+- [ ] **Slip ↔ NF-e reconciliation**: match boletos to the installments (*duplicatas*) of an invoice by
+  amount, due date and issuer, and explain every mismatch.
+- [ ] **OFX** bank statements.
 
 ## Development
 
